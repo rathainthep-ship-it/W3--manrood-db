@@ -1,9 +1,12 @@
+โค้ด HTML/CSS ที่ปรับเปลี่ยนธีมจากโทนสีม่วงเป็น โทนสีแดง-ขาว (Red & White Theme) อย่างสมบูรณ์เรียบร้อยครับ
+
+HTML
 <!DOCTYPE html>
 <html lang="th">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>รายการการจอง</title>
+<title>ข้อมูลห้องพัก</title>
 
 <style>
 
@@ -13,14 +16,14 @@
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:'Sarabun','Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+    font-family:"Sarabun","Segoe UI",Tahoma,Geneva,Verdana,sans-serif;
 }
 
 body{
-    background:#fcf8f8; /* เปลี่ยนเป็นสีขาวอมเทาอ่อน เพื่อให้คอนเทนต์เด่น */
-    min-height:100vh;
+    background:#fcf8f8; /* เปลี่ยนเป็นสีขาวอมเทาอ่อน */
     display:flex;
     flex-direction:column;
+    min-height:100vh;
     font-size:16px;
     line-height:1.7;
 }
@@ -28,12 +31,12 @@ body{
 /* ================= Navbar ================= */
 
 nav{
-    background:#d32f2f; /* เปลี่ยนเป็นสีแดงเข้มสง่างาม */
-    color:white;
+    background:#d32f2f; /* เปลี่ยนเป็นสีแดงหลัก */
     display:flex;
     justify-content:space-between;
     align-items:center;
     padding:18px 40px;
+    color:white;
     box-shadow:0 2px 10px rgba(0,0,0,.15);
 }
 
@@ -52,9 +55,8 @@ nav ul{
 }
 
 nav ul li a{
-    color:white;
     text-decoration:none;
-    font-size:17px;
+    color:white;
     font-weight:bold;
     transition:.3s;
 }
@@ -70,16 +72,16 @@ nav ul li a:hover{
     max-width:1200px;
     margin:40px auto;
     background:white;
+    border-radius:20px;
     padding:30px;
-    border-radius:18px;
-    box-shadow:0 10px 25px rgba(211, 47, 47, 0.08);
+    box-shadow:0 8px 25px rgba(211, 47, 47, 0.08);
     border:1px solid #ffebee;
     flex:1;
 }
 
 .container h2{
     text-align:center;
-    color:#c62828; /* หัวข้อสีแดงหลัก */
+    color:#c62828; /* หัวข้อสีแดงเข้ม */
     margin-bottom:25px;
     font-size:30px;
     font-weight:600;
@@ -100,15 +102,17 @@ thead{
     color:white;
 }
 
+th,td{
+    padding:16px;
+    text-align:center;
+}
+
 th{
-    padding:15px;
     font-size:17px;
     font-weight:600;
 }
 
 td{
-    padding:15px;
-    text-align:center;
     border-bottom:1px solid #ffebee;
     font-size:15px;
     color:#333;
@@ -123,16 +127,6 @@ tbody tr:hover{
     transition:.3s;
 }
 
-/* ================= Image ================= */
-
-img{
-    width:140px;
-    height:200px;
-    object-fit:cover;
-    border-radius:12px;
-    border:3px solid #ef5350; /* กรอบรูปสีแดงสด */
-}
-
 /* ================= Button ================= */
 
 .btn{
@@ -141,16 +135,16 @@ img{
     justify-content:center;
     gap:8px;
     width:fit-content;
-    margin:30px auto;
+    margin:30px auto 0;
     padding:13px 28px;
     background:#d32f2f; /* ปุ่มสีแดงหลัก */
     color:white;
     text-decoration:none;
+    border-radius:30px;
     font-size:18px;
     font-weight:bold;
-    border-radius:30px;
     transition:.3s;
-    box-shadow:0 5px 15px rgba(211, 47, 47, 0.3);
+    box-shadow:0 5px 15px rgba(211, 47, 47, 0.25);
 }
 
 .btn:hover{
@@ -161,7 +155,7 @@ img{
 /* ================= Footer ================= */
 
 footer{
-    background:#d32f2f; /* ส่วนท้ายสีแดงเข้ม */
+    background:#d32f2f; /* ส่วนท้ายสีแดง */
     color:white;
     text-align:center;
     padding:18px;
@@ -197,45 +191,33 @@ footer p{
 <?php
 include "action/connect.php";
 
-$sql = "SELECT * FROM orders";
-$result = mysqli_query($con,$sql);
+// ดึงข้อมูลทั้งหมดจากตาราง rooms
+$sql = "SELECT * FROM rooms";
+$result = mysqli_query($con, $sql);
 ?>
 
-<h2>📋 รายการจองห้องพัก</h2>
+<h2>🏨 ข้อมูลห้องพัก</h2>
 
 <table>
 
 <thead>
 <tr>
-    <th>รหัสรายการ</th>
-    <th>ชื่อผู้เข้าพัก</th>
-    <th>ชำระเงิน</th>
-    <th>ประเภท</th>
-    <th>ห้อง</th>
-    <th>ภาพ</th>
+    <th>รหัสห้อง</th>
+    <th>สูบบุหรี่</th>
+    <th>อ่างอาบน้ำ</th>
+    <th>ราคา (บาท)</th>
 </tr>
 </thead>
 
 <tbody>
 
-<?php foreach($result as $order){ ?>
+<?php foreach($result as $room){ ?>
 
 <tr>
-
-<td><?= $order["order_id"] ?></td>
-
-<td><?= $order["name"] ?></td>
-
-<td><?= $order["payment"] ?></td>
-
-<td><?= $order["usage_type"] ?></td>
-
-<td><?= $order["room_id"] ?></td>
-
-<td>
-    <img src="<?= $order["image"] ?>" alt="รูปผู้เข้าพัก">
-</td>
-
+    <td><?= $room["room_id"] ?></td>
+    <td><?= $room["smoke"] ?></td>
+    <td><?= $room["bathtub"] ?></td>
+    <td><?= number_format($room["price"]) ?></td>
 </tr>
 
 <?php } ?>
@@ -244,16 +226,14 @@ $result = mysqli_query($con,$sql);
 
 </table>
 
-<a href="room.php" class="btn">🏠 กลับหน้าห้องพัก</a>
+<a href="add_order.php" class="btn">📋 หน้าการจอง</a>
 
 </div>
 
 <!-- Footer -->
 
 <footer>
-
-<p>รฐา อินทร์เทพ BIT2/3 เลขที่21</p> 
-
+    <p>© 2026 ระบบจัดการห้องพัก | Red & White Theme ❤️🤍</p>
 </footer>
 
 </body>
